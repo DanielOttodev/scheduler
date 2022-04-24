@@ -39,6 +39,15 @@
             {{ $refs.calendar.title }}
           </v-toolbar-title>
           <v-spacer></v-spacer>
+          <v-row justify="end">
+         <v-btn
+            outlined
+            class="mr-4"
+            color="grey darken-2"
+          >
+            Create
+          </v-btn> 
+          </v-row>
         </v-toolbar>
       </v-sheet>
       <v-sheet height="600">
@@ -47,29 +56,112 @@
           v-model="focus"
           color="primary"
           type="category"
+          event-overlap-mode="column"  
           category-show-all
+          interval-height="65"
           :categories="categories"
           :events="events"
           :event-color="getEventColor"
-          @change="fetchEvents"
+          @change="fetchEvents" 
+        @click:event="showEvent"
         ></v-calendar>
       </v-sheet>
-    </v-col>
+      <v-btn
+       elevation="2"
+       @click="test()"
+      >
+          Test
+      </v-btn>
+    </v-col>~
+    <!---Event Modal-->
+     <v-menu
+          v-model="selectedOpen"
+          :close-on-content-click="false"
+          :activator="selectedElement"
+          offset-x
+        >
+          <v-card
+            color="grey lighten-4"
+            min-width="350px"
+            flat
+          >
+            <v-toolbar
+              :color="selectedEvent.color"
+              dark
+            >
+              <v-btn icon>
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+              <v-spacer></v-spacer>
+
+            </v-toolbar>
+            <v-card-text>
+              <span v-html="selectedEvent.details"></span>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                text
+                color="secondary"
+                @click="selectedOpen = false"
+              >
+                Cancel
+              </v-btn>
+              <v-row
+              justify="end"
+              >
+                         <v-btn
+                text
+                color="red"
+                
+              >
+                Remove
+              </v-btn>
+              </v-row>
+     
+            </v-card-actions>
+          </v-card>
+        </v-menu>
   </v-row>
 </template>
 <script>
+import NuxtLogoVue from './NuxtLogo.vue'
   export default {
     data: () => ({
       focus: '',
       events: [],
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-      categories: ['John Smith', 'Tori Walker','Agent Smith'],
+      categories: ['John Smith', 'Tori Walker','Agent Smith','Scott Pendlebury'],
+      selectedEvent: {},
+      selectedElement: null,
+      selectedOpen: false,
     }),
     mounted () {
       this.$refs.calendar.checkChange()
     },
     methods: {
+      test(){
+          console.log(this.$refs.calendar.start)
+          console.log(this.$refs.calendar.end)
+          console.log(this.events);
+      },
+    showEvent ({ nativeEvent, event }) {
+        const open = () => {
+          this.selectedEvent = event
+          this.selectedElement = nativeEvent.target
+          requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
+        }
+
+        if (this.selectedOpen) {
+          this.selectedOpen = false
+          requestAnimationFrame(() => requestAnimationFrame(() => open()))
+        } else {
+          open()
+        }
+
+        nativeEvent.stopPropagation()
+      },
       getEventColor (event) {
         return event.color
       },
@@ -85,7 +177,7 @@
       fetchEvents ({ start, end }) {
         const events = []
 
-        const min = new Date(`${start.date}T00:00:00`)
+        const min = new Date(`${start.date}T00:00:01`)
         const max = new Date(`${end.date}T23:59:59`)
         const days = (max.getTime() - min.getTime()) / 86400000
         const eventCount = this.rnd(days, days + 20)
@@ -102,11 +194,12 @@
             start: first,
             end: second,
             color: this.colors[this.rnd(0, this.colors.length - 1)],
-            timed: !allDay,
+            timed: true,
             category: this.categories[this.rnd(0, this.categories.length - 1)],
+            details: `Customer needs a haircut`
           })
         }
-        console.log(events);
+      
         this.events = events
       },
       rnd (a, b) {
@@ -117,7 +210,13 @@
 </script>
 <style>
 .v-calendar-category__column-header{
-background-color: rgba(15, 106, 176, 0.8);
-color: white;
+background-color: #F8F7FF;
+height: 30px;
+
 }
+.v-calendar-daily_head-day{
+background-color: #F8F7FF;
+color: white; 
+}
+
 </style>

@@ -4,8 +4,10 @@
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
+      :dark=true
       fixed
       app
+     
     >
       <v-list>
         <v-list-item
@@ -24,7 +26,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
+    <v-app-bar :clipped-left="clipped" fixed app color="#9381FF">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
@@ -35,10 +37,12 @@
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>mdi-minus</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title
+      color="white"
+       v-text="title" />
       <v-spacer />
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
+        <v-icon>mdi-account-circle</v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
@@ -46,7 +50,7 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
+    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed >
       <v-list>
         <v-list-item @click.native="right = !right">
           <v-list-item-action>
@@ -85,7 +89,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js',
+      title: 'Joes Yoga & Fitness',
     }
   },
 }

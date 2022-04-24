@@ -1,5 +1,15 @@
 # scheduler
 
+## UI Todo's 
+Login
+Register
+Calendar
+-- Clickable Events
+-- Add Events
+-- Modify Events
+
+
+
 ## Build Setup
 
 ```bash
