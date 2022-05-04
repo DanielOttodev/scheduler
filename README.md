@@ -1,8 +1,12 @@
 # scheduler
 
 ## UI Todo's 
-Login
-Register
+Login Page
+Register Page
+Add Staff Page
+User Profile Page
+Business Info Page
+Theming Page
 Calendar
 -- Clickable Events
 -- Add Events

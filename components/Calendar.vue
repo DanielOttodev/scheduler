@@ -44,6 +44,7 @@
             outlined
             class="mr-4"
             color="grey darken-2"
+            @click.stop="rightDrawer = !rightDrawer"
           >
             Create
           </v-btn> 
@@ -66,13 +67,8 @@
         @click:event="showEvent"
         ></v-calendar>
       </v-sheet>
-      <v-btn
-       elevation="2"
-       @click="test()"
-      >
-          Test
-      </v-btn>
-    </v-col>~
+
+    </v-col>
     <!---Event Modal-->
      <v-menu
           v-model="selectedOpen"
@@ -122,12 +118,48 @@
             </v-card-actions>
           </v-card>
         </v-menu>
+            <v-navigation-drawer width="800" v-model="rightDrawer" :right="!right" temporary fixed >
+      <v-list>
+        <v-list-item @click.native="right = !right">
+          <v-list-item-action>
+            <v-icon light> mdi-repeat </v-icon>
+          </v-list-item-action>
+          <v-list-item-title>  <h2 id="formHeader">What kind of event is this?</h2></v-list-item-title>
+      
+        </v-list-item>
+      </v-list>
+                <v-container>
+                <v-row >
+                    <v-col align-self="center">
+              
+                        <v-card  @click="toggleSelect"  :hover=true p-3 class="mx-auto pa-3" max-width="180">
+                                   
+                                  <v-icon mt-1 color="cyan"  ref="bookingCard"  large>event</v-icon>
+                                     <v-card-subtitle>Booking</v-card-subtitle>
+                        </v-card>
+                    </v-col>
+                    <v-col  @click="toggleSelect"  align-self="center"><v-card :outlined=true  :hover=true max-width="180" class="mx-auto pa-3">
+                                            <v-icon ref="classCard"   color="grey" large>groupadd</v-icon>
+                                     <v-card-subtitle>Class</v-card-subtitle>
+                        </v-card></v-col>
+                </v-row>
+                <v-divider class="mt-5"></v-divider>
+                        <v-row class="mt-5">
+              <v-col>
+                    <NewEventForm :staff ="categories"  />
+              </v-col>
+          </v-row>
+          </v-container>
+    </v-navigation-drawer>
   </v-row>
 </template>
 <script>
-import NuxtLogoVue from './NuxtLogo.vue'
+import NewEventForm from './NewEventForm.vue'
+
   export default {
+  components: { NewEventForm },
     data: () => ({
+      right: null,
       focus: '',
       events: [],
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
@@ -136,11 +168,17 @@ import NuxtLogoVue from './NuxtLogo.vue'
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
+      rightDrawer: false,
     }),
     mounted () {
       this.$refs.calendar.checkChange()
     },
     methods: {
+    toggleSelect(){
+        console.log('Hello')
+        this.$refs.bookingCard.color = "green";
+    },
+
       test(){
           console.log(this.$refs.calendar.start)
           console.log(this.$refs.calendar.end)
@@ -217,6 +255,10 @@ height: 30px;
 .v-calendar-daily_head-day{
 background-color: #F8F7FF;
 color: white; 
+}
+#formHeader{
+    font-family:sans-serif;
+    color:  #b0bec5;
 }
 
 </style>
