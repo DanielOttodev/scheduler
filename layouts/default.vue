@@ -23,7 +23,7 @@
           outlined
           class="ml-3 ml-3"
           dark
-          large=true
+          :large=true
           text
          
         >
@@ -88,13 +88,13 @@ export default {
         },
         {
           icon: 'mdi-calendar',
-          title: 'Bookings',
+          title: 'Schedule',
           to: '/bookings',
           sideDraw:true
         },
         {
           icon: 'mdi-account-supervisor-circle',
-          title: 'Customers',
+          title: 'Clients',
           to: '/customers',
           sideDraw:false
         },

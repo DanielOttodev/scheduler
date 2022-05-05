@@ -48,7 +48,7 @@
                         <v-btn rounded color="blue accent-2" dark>SIGN IN</v-btn>
                       </div>
                     </v-col>
-                    <v-col cols="12" md="4" class="light-blue lighten-2">
+                    <v-col cols="12" md="4" class="blue-grey darken-4">
                       <v-card-text class="white--text mt-12">
                         <h1 class="text-center display-1">Hello, Friend!</h1>
                         <h5
@@ -63,7 +63,7 @@
                 </v-window-item>
                 <v-window-item :value="2">
                   <v-row class="fill-height">
-                    <v-col cols="12" md="4" class="light-blue accent-2">
+                    <v-col cols="12" md="4" class="blue-grey darken-4">
                       <v-card-text class="white--text mt-12">
                         <h1 class="text-center display-1">Welcome Back!</h1>
                         <h5
@@ -118,7 +118,7 @@
                         </v-form>
                       </v-card-text>
                       <div class="text-center mt-n5  mb-3">
-                        <v-btn rounded color="blue accent-2" dark>SIGN UP</v-btn>
+                        <v-btn rounded color="blue-grey darken-4" dark>SIGN UP</v-btn>
                       </div>
                     </v-col>
                   </v-row>

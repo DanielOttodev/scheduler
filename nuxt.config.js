@@ -7,7 +7,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - scheduler',
-    title: 'scheduler',
+    title: 'Contii',
     htmlAttrs: {
       lang: 'en',
     },

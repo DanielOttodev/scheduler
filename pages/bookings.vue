@@ -30,10 +30,27 @@
         :key="item"
       >
         <v-card
-          color="basil"
+        :rounded=true
+          color="blue-grey lighten-5"
           flat
         >
-          <v-card-text>{{ text }}</v-card-text>
+          <v-card-text v-if="item === 'Staff'">
+       <v-checkbox v-for="item in users" :key="item"
+      v-model="selected"
+      :label=item
+      :value=item
+    ></v-checkbox>
+
+
+          </v-card-text>
+     <v-card-text v-if="item === 'Category'">
+       <v-checkbox v-for="item in category" :key="item"
+      v-model="selectedCategory"
+      :label=item
+      :value=item
+    ></v-checkbox>
+
+          </v-card-text>
         </v-card>
         
       </v-tab-item>
@@ -43,7 +60,7 @@
           </v-card>
         </v-col>
         <v-col cols="12" sm="12" lg="9">
-          <Calendar />
+          <Calendar :pickerDate="picker" :users="users"  :filterUser="selected" />
         </v-col>
       </v-row>
 
@@ -58,12 +75,16 @@ export default {
   name: 'Bookings',
   data: () => ({
     tab:null,
+    users:['John Smith','Tori Walker','James Raw','Kenny Rogers'],
+    category: ['Class', 'Appointment'],
+    selected: ['John Smith'],
+    selectedCategory:[],
     items: [
-          'Users', 'Category',
+          'Staff', 'Category',
         ],
         text: 'Filter by User',
       picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        picker2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      //picker2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     }),
       methods: {
       allowedDates: val => parseInt(val.split('-')[2], 10) % 2 === 0,
