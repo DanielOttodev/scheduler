@@ -3,12 +3,23 @@
     <div v-if="$vuetify.breakpoint.xsOnly" class="text-center">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" dark v-bind="attrs" v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
+          <v-btn
+            width="100%"
+            color="blue-grey darken-4"
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
+            {{ path }}
           </v-btn>
         </template>
         <v-list>
-          <v-list-item v-for="(item, index) in items" :key="index">
+          <v-list-item
+            v-for="(item, index) in items"
+            :to="item.to"
+            :key="index"
+            @click="select(item.title)"
+          >
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -80,8 +91,17 @@
 <script>
 export default {
   name: 'DefaultLayout',
+  created() {
+    this.path = this.$route.name
+  },
+  methods: {
+    select(path) {
+      this.path = path
+    },
+  },
   data() {
     return {
+      path: '',
       clipped: true,
       drawer: true,
       fixed: false,
