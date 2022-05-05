@@ -1,54 +1,61 @@
 <template>
   <v-app dark>
-  <!-- <v-navigation-drawer v-if="sideDrawer"
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      :dark=true
+    <div v-if="$vuetify.breakpoint.xsOnly" class="text-center">
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="primary" dark v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for="(item, index) in items" :key="index">
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
+    <v-app-bar
+      v-if="$vuetify.breakpoint.smAndUp"
+      :clipped-left="clipped"
       fixed
       app
-     
+      class="blue-grey darken-4"
     >
-<h6>hello</h6> 
-    </v-navigation-drawer>   -->  
-    <v-app-bar  :clipped-left="clipped" fixed app class="blue-grey darken-4">
+      <v-btn
+        v-for="(item, i) in items"
+        :key="i"
+        :to="item.to"
+        router
+        exact
+        outlined
+        class="ml-3 ml-3"
+        dark
+        :large="true"
+        text
+      >
+        <v-icon>{{ item.icon }}</v-icon>
 
-        <v-btn
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-
-          outlined
-          class="ml-3 ml-3"
-          dark
-          :large=true
-          text
-         
-        >
-   
-            <v-icon>{{ item.icon }}</v-icon>
-    
-         
-         {{item.title}}
-    
-        </v-btn>
+        {{ item.title }}
+      </v-btn>
 
       <!---<v-toolbar-title
       color="white"
        v-text="title" />  -->
       <v-spacer />
+      <v-btn icon ripple>
+        <v-icon color="grey">mdi-bell</v-icon>
+      </v-btn>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon color="white"  :left="true">mdi-account-circle</v-icon>
+        <v-icon color="white" :left="true">mdi-account-circle</v-icon>
       </v-btn>
     </v-app-bar>
+
     <v-main>
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed >
+    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-list>
         <v-list-item to="/userProfile">
           <v-list-item-action>
@@ -56,7 +63,7 @@
           </v-list-item-action>
           <v-list-item-title>Profile</v-list-item-title>
         </v-list-item>
-                <v-list-item to="/login">
+        <v-list-item to="/login">
           <v-list-item-action>
             <v-icon light> mdi-arrow-top-right </v-icon>
           </v-list-item-action>
@@ -84,26 +91,26 @@ export default {
           icon: 'mdi-apps',
           title: 'Dashboard',
           to: '/',
-          sideDraw:false
+          sideDraw: false,
         },
         {
           icon: 'mdi-calendar',
           title: 'Schedule',
           to: '/bookings',
-          sideDraw:true
+          sideDraw: true,
         },
         {
           icon: 'mdi-account-supervisor-circle',
           title: 'Clients',
           to: '/customers',
-          sideDraw:false
+          sideDraw: false,
         },
-        
+
         {
           icon: 'mdi-cog',
           title: 'Settings',
           to: '/settings',
-          sideDraw:false
+          sideDraw: false,
         },
       ],
       miniVariant: false,
@@ -116,7 +123,7 @@ export default {
 </script>
 
 <style >
-.v-toolbar__content{
-  color:white;
+.v-toolbar__content {
+  color: white;
 }
 </style>

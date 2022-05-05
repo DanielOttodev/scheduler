@@ -12,6 +12,16 @@
           <ClientProfile :clientName="customer" />
         </v-card>
       </v-tab-item>
+      <v-tab-item>
+        <v-card flat>
+          <ClientHistory :clientName="customer" />
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-card flat>
+          <ClientNotes />
+        </v-card>
+      </v-tab-item>
     </v-tabs-items>
   </v-card>
 </template>
