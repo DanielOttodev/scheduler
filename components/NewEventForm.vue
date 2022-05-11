@@ -1,43 +1,72 @@
 <template>
   <form>
-    <h2 style="color: #b0bec5">Booking</h2>
-    <v-text-field
-      v-model="name"
-      :error-messages="nameErrors"
-      :counter="10"
-      label="Name"
-      required
-      @input="$v.name.$touch()"
-      @blur="$v.name.$touch()"
-    ></v-text-field>
-    <v-text-field
-      v-model="email"
-      :error-messages="emailErrors"
-      label="E-mail"
-      required
-      @input="$v.email.$touch()"
-      @blur="$v.email.$touch()"
-    ></v-text-field>
-    <v-select
-      v-model="select"
-      :items="staff"
-      :error-messages="selectErrors"
-      label="Staff Member"
-      required
-      @change="$v.select.$touch()"
-      @blur="$v.select.$touch()"
-    ></v-select>
-    <v-checkbox
-      v-model="checkbox"
-      :error-messages="checkboxErrors"
-      label="Do you agree?"
-      required
-      @change="$v.checkbox.$touch()"
-      @blur="$v.checkbox.$touch()"
-    ></v-checkbox>
+    <h2>New Booking</h2>
+    <v-stepper v-model="e6" vertical>
+      <v-stepper-step :hover="true" :complete="e6 > 1" @click="e6 = 1" step="1">
+        Create a booking
+        <small>Service details</small>
+      </v-stepper-step>
 
-    <v-btn class="mr-4" color="green" @click="submit"> submit </v-btn>
-    <v-btn @click="clear"> Cancel </v-btn>
+      <v-stepper-content step="1">
+        <v-card class="pa-3" outlined>
+          <v-row>
+            <v-col cols="4">
+              <v-select outlined label="Time"></v-select>
+            </v-col>
+            <v-col cols="8">
+              <v-select outlined label="Service"></v-select
+            ></v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="4">
+              <v-select outlined label="Duration"></v-select>
+            </v-col>
+            <v-col cols="8">
+              <v-select outlined label="Staff Member"></v-select
+            ></v-col>
+          </v-row>
+        </v-card>
+        <v-btn class="mt-3" color="primary" @click="e6 = 2"> Continue </v-btn>
+      </v-stepper-content>
+
+      <v-stepper-step :complete="e6 > 2" step="2">
+        Select client
+      </v-stepper-step>
+
+      <v-stepper-content step="2">
+        <v-select outlined label="Client"></v-select>
+
+        <v-btn color="primary" @click="e6 = 3"> Continue </v-btn>
+        <v-btn @click="e6 = e6 - 1" text> Back </v-btn>
+      </v-stepper-content>
+
+      <v-stepper-step :complete="e6 > 3" step="3">
+        Additional Details
+        <small>Optional</small>
+      </v-stepper-step>
+
+      <v-stepper-content step="3">
+        <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
+        <v-btn color="primary" @click="e6 = 4"> Continue </v-btn>
+        <v-btn text @click="e6 = e6 - 1"> Cancel </v-btn>
+      </v-stepper-content>
+
+      <v-stepper-step step="4"> View setup instructions </v-stepper-step>
+      <v-stepper-content step="4">
+        <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
+
+        <v-btn @click="clear"> Cancel </v-btn>
+        <v-btn
+          class="mr-4"
+          color="blue-grey darken-4 white--text"
+          @click="submit"
+        >
+          Save Booking
+        </v-btn>
+      </v-stepper-content>
+    </v-stepper>
+
+    <!---  -->
   </form>
 </template>
 <script>
@@ -64,6 +93,7 @@ export default {
     email: '',
     select: null,
     checkbox: false,
+    e6: 1,
   }),
 
   computed: {

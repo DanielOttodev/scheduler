@@ -28,7 +28,7 @@
           </v-row>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="600">
+      <v-sheet height="700">
         <v-calendar
           v-if="users.length > 0"
           ref="calendar"
@@ -37,7 +37,9 @@
           type="category"
           event-overlap-mode="column"
           category-show-all
-          interval-height="65"
+          interval-count="24"
+          interval-height="30"
+          interval-minutes="60"
           :categories="filterUser"
           :events="events"
           :event-color="getEventColor"
@@ -106,7 +108,9 @@
               class="mx-auto pa-3"
               max-width="180"
             >
-              <v-icon mt-1 color="cyan" ref="bookingCard" large>event</v-icon>
+              <v-icon mt-1 color="primary" ref="bookingCard" large
+                >event</v-icon
+              >
               <v-card-subtitle>Booking</v-card-subtitle>
             </v-card>
           </v-col>
@@ -230,6 +234,7 @@ export default {
           name: this.names[this.rnd(0, this.names.length - 1)],
           start: first,
           end: second,
+          width: 200,
           color: this.colors[this.rnd(0, this.colors.length - 1)],
           timed: true,
           category: this.users[this.rnd(0, this.users.length - 1)],
