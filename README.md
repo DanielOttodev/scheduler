@@ -5,7 +5,7 @@
 - [x] Register Page
 - [ ] Add Staff Page
 - [x] User Profile Page
-- [ ]Settings Page
+- [ ] Settings Page
 - [x] 1. Calendar
          - Clickable Events
          - Add Events
