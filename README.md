@@ -10,6 +10,8 @@
          - Clickable Events
          - Add Events
          - Modify Events
+- [ ] Client-Side Front End
+
 
 
 
