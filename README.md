@@ -3,13 +3,13 @@
 ## UI Todo's 
 - [x] Login Page
 - [x] Register Page
-- [] Add Staff Page
+- [ ] Add Staff Page
 - [x] User Profile Page
-- []Settings Page
-- [x] 1.Calendar
-       - Clickable Events
-       - Add Events
-       - Modify Events
+- [ ]Settings Page
+- [x] 1. Calendar
+         - Clickable Events
+         - Add Events
+         - Modify Events
 
 
 
