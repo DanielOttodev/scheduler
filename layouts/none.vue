@@ -56,7 +56,7 @@
     </v-main>
 
     <v-footer app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&copy; {{ new Date().getFullYear() }} Zenly</span>
     </v-footer>
   </v-app>
 </template>
