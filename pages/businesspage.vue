@@ -5,6 +5,7 @@
       <v-divider :inset="true" class="mt-5 mb-5"></v-divider
     ></v-row>
     <BusinessServices />
+    <BusinessLocation />
   </v-container>
 </template>
 <script>
