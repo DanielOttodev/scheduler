@@ -3,7 +3,42 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  // Auth
+  auth: {
+    strategies: {
+      awsCognito: {
+        scheme: 'oauth2',
 
+        endpoints: {
+          authorization:
+            'https://zenly.auth.ap-southeast-2.amazoncognito.com/login',
+          token: 'https://zenly.auth.ap-southeast-2.amazoncognito.com/token',
+          userInfo:
+            'https://zenly.auth.ap-southeast-2.amazoncognito.com/oauth2/userInfo',
+          logout: 'https://zenly.auth.ap-southeast-2.amazoncognito.com/logout',
+        },
+        token: {
+          property: 'access_token',
+          type: 'Bearer',
+          maxAge: 3600,
+        },
+        refreshToken: {
+          property: 'refresh_token',
+          maxAge: 60 * 60 * 24 * 30,
+        },
+        responseType: 'token',
+        redirectUri: 'http://localhost:3000/login',
+        logoutRedirectUri: 'http://localhost:3000/login',
+        clientId: '4rgm19j0b6erotf1afroishjih',
+        scope: ['email', 'openid', 'profile'],
+        codeChallengeMethod: 'S256',
+      },
+    },
+  },
+  // Router Middleware
+  router: {
+    middleware: ['auth'],
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - scheduler',
