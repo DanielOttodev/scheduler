@@ -11,6 +11,7 @@
               color="green"
             ></v-progress-circular>
           </v-card-text>
+          <v-btn @click="logOut">Stuck?</v-btn>
         </v-card>
         <v-card class="elevation-12" v-else>
           <v-card-title>You're not logged in</v-card-title>
@@ -54,6 +55,14 @@ export default {
   created() {
     this.loggedIn = this.$auth.strategy.token.get()
     console.log(this.loggedIn)
+    //console.log(new Date(1653362886000))
+    let expire = localStorage['auth._token_expiration.awsCognito']
+    if (expire < new Date()) {
+      this.loggedIn = false
+    } else {
+      console.log(expire)
+      console.log(new Date())
+    }
   },
 
   computed: {
@@ -87,6 +96,9 @@ export default {
   },
 
   methods: {
+    logOut() {
+      this.$auth.logout()
+    },
     login() {
       this.$auth.loginWith('awsCognito')
     },

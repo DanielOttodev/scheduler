@@ -14,7 +14,7 @@
                   ></v-img>
                 </v-avatar>
                 <h3 class="large mt-2">{{ clientName }}</h3>
-                <p>Birthday: 01 Dec 1996</p>
+                <p>{{ client.dateCreated }}</p>
                 <p>Member since: 01 May 22</p>
                 <v-btn text class="ma-1 primary--text" flat small>Edit</v-btn>
                 <v-btn text class="ma-1 red--text" flat small>Remove</v-btn>
@@ -24,23 +24,23 @@
                 <v-list-item two-line>
                   <v-list-item-content>
                     <v-list-item-title>Phone</v-list-item-title>
-                    <v-list-item-subtitle>+61 413 864 377</v-list-item-subtitle>
+                    <v-list-item-subtitle>{{
+                      client.phone
+                    }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item two-line>
                   <v-list-item-content>
                     <v-list-item-title>Email</v-list-item-title>
-                    <v-list-item-subtitle
-                      >sparrow@seabird.com</v-list-item-subtitle
-                    >
+                    <v-list-item-subtitle>{{ email }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item two-line>
                   <v-list-item-content>
                     <v-list-item-title>Address</v-list-item-title>
-                    <v-list-item-subtitle
-                      >123 MeHearty Lane, Oceanview</v-list-item-subtitle
-                    >
+                    <v-list-item-subtitle>{{
+                      client.streetAddress
+                    }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-col>
@@ -57,9 +57,17 @@
 
 <script>
 export default {
-  props: ['clientName'],
+  props: ['clientName', 'client'],
   data: () => {
-    return {}
+    return {
+      //email: '',
+      phone: '',
+    }
+  },
+  computed: {
+    email: function () {
+      return this.client.email
+    },
   },
 }
 </script>

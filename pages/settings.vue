@@ -1,3 +1,3 @@
 <template>
-    <h3>Settings</h3>
+  <h3>Settings</h3>
 </template>

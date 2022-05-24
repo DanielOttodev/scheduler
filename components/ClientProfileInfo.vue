@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  props: ['clientName'],
+  props: ['clientName', 'client'],
   data: () => {
     return {}
   },

@@ -3,10 +3,12 @@
     <v-row>
       <v-col lg="10" sm="12">
         <v-select
+          return-object
           :items="items"
           label="Select a client"
           solo
           @change="onChange"
+          item-text="Name"
         ></v-select>
       </v-col>
       <v-col lg="2" sm="12"
@@ -39,34 +41,45 @@
       </v-card>
     </v-row>
     <v-container v-if="selectedCustomer != ''">
-      <ClientInfo :customer="selectedCustomer" />
+      <ClientInfo :clientId="clientId" :customer="selectedCustomer" />
     </v-container>
   </v-container>
 </template>
 <script>
 export default {
+  mounted() {
+    this.loadClients()
+  },
   data: () => ({
     dialog: false,
     selectedCustomer: '',
-    items: [
-      'Cpt Jack Sparrow',
-      'Bar',
-      'Fizz',
-      'Buzz',
-      'proof',
-      'budge',
-      'pig',
-      'tune',
-      'passive',
-      'ethics',
-      'crude',
-      'opposed',
-      'reflection',
-    ],
+    clientId: '',
+    items: [],
   }),
   methods: {
     onChange(e) {
-      this.selectedCustomer = e
+      console.log(e)
+      this.selectedCustomer = e.Name
+      this.clientId = e.idClient
+    },
+    loadClients() {
+      fetch(`${process.env.baseUrl}/client/getClientList`, {
+        headers: {
+          Authorization: this.$auth.strategy.token.get(),
+        },
+      })
+        .then((response) => {
+          if (response.status > 400) {
+            console.log(response)
+            console.log('Invalid Token')
+          } else {
+            return response.json()
+          }
+        })
+        .then((x) => {
+          //  console.log(x)
+          this.items = x
+        })
     },
   },
 }

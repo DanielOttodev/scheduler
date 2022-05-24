@@ -2,7 +2,6 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <div class="text-center">
-        <logo />
         <vuetify-logo />
       </div>
       <v-card>
@@ -59,6 +58,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
+          <v-btn color="success" @click="checkAuth"> Check </v-btn>
           <v-btn color="primary" @click="logOut"> Log Out </v-btn>
         </v-card-actions>
       </v-card>
@@ -91,6 +91,21 @@ export default {
   methods: {
     logOut() {
       this.$auth.logout()
+    },
+    checkAuth() {
+      console.log(process.env.baseUrl)
+
+      /*fetch(`${this.baseUrl}/auth/validate`, {
+        headers: { Authorization: this.$auth.strategy.token.get() },
+        method: 'GET',
+      })
+        .then((response) => response.json())
+        .then((x) => {
+          if (x.status === 401) {
+            alert('Session Expired')
+            this.$auth.logout()
+          }
+        })*/
     },
   },
 }

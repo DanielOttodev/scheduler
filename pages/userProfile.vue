@@ -20,3 +20,13 @@
     </v-row>
   </v-container>
 </template>
+
+<script>
+export default {
+  data: () => {
+    return {}
+  },
+  created() {},
+  methods: {},
+}
+</script>
