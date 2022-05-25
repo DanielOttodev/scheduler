@@ -10,6 +10,7 @@
 </template>
 <script>
 export default {
+  middleware: '',
   layout: 'none',
   data: () => ({}),
 

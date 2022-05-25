@@ -40,8 +40,12 @@
         >
       </v-card>
     </v-row>
-    <v-container v-if="selectedCustomer != ''">
-      <ClientInfo :clientId="clientId" :customer="selectedCustomer" />
+    <v-container v-if="client != ''">
+      <ClientInfo
+        :client="client"
+        :clientId="clientId"
+        :customer="selectedCustomer"
+      />
     </v-container>
   </v-container>
 </template>
@@ -54,6 +58,7 @@ export default {
     dialog: false,
     selectedCustomer: '',
     clientId: '',
+    client: '',
     items: [],
   }),
   methods: {
@@ -61,6 +66,20 @@ export default {
       console.log(e)
       this.selectedCustomer = e.Name
       this.clientId = e.idClient
+      console.log(this.clientId)
+      fetch(`${process.env.baseUrl}/client/getClient/${this.clientId}`, {
+        method: 'GET',
+        headers: { Authorization: this.$auth.strategy.token.get() },
+      })
+        .then((response) => response.json())
+        .then((x) => {
+          console.log('logging:', x[0])
+          this.client = x.result[0]
+        })
+        .then((y) => {
+          console.log('done')
+          //   this.doneFetching = true
+        })
     },
     loadClients() {
       fetch(`${process.env.baseUrl}/client/getClientList`, {
@@ -68,17 +87,15 @@ export default {
           Authorization: this.$auth.strategy.token.get(),
         },
       })
-        .then((response) => {
-          if (response.status > 400) {
-            console.log(response)
-            console.log('Invalid Token')
-          } else {
-            return response.json()
-          }
-        })
+        .then((response) => response.json())
         .then((x) => {
-          //  console.log(x)
-          this.items = x
+          if (x.msg) {
+            alert('Invalid Token')
+            this.$auth.logout()
+          } else {
+            console.log(x)
+            this.items = x.result
+          }
         })
     },
   },

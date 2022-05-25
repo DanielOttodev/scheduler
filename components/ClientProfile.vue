@@ -10,7 +10,7 @@
                   <v-img
                     max-height="200"
                     max-width="200"
-                    src="https://pbs.twimg.com/profile_images/2364560527/captain_jack_sparrow_400x400.jpg"
+                    src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
                   ></v-img>
                 </v-avatar>
                 <h3 class="large mt-2">{{ clientName }}</h3>
