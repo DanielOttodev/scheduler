@@ -4,6 +4,12 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:8080/', //process.env.BASE_URL,
+    redirectUri:
+      process.env.REDIRECT_URL ||
+      'https://master.d365ae9mfl52zg.amplifyapp.com/login',
+    logoutRedirectUri:
+      process.env.LOGOUT_URL ||
+      'https://master.d365ae9mfl52zg.amplifyapp.com/login',
   },
   ssr: false,
   // Auth
@@ -30,8 +36,8 @@ export default {
           maxAge: 60 * 60 * 24 * 30,
         },
         responseType: 'token',
-        redirectUri: 'https://master.d365ae9mfl52zg.amplifyapp.com/login',
-        logoutRedirectUri: 'https://master.d365ae9mfl52zg.amplifyapp.com/login',
+        redirectUri: process.env.redirectUri,
+        logoutRedirectUri: process.env.logoutRedirectUri,
         clientId: '4rgm19j0b6erotf1afroishjih',
         scope: ['email', 'openid', 'profile'],
         codeChallengeMethod: 'S256',
