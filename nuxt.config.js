@@ -3,13 +3,9 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:8080/', //process.env.BASE_URL,
-    redirectUri:
-      process.env.REDIRECT_URL ||
-      'https://master.d365ae9mfl52zg.amplifyapp.com/login',
-    logoutRedirectUri:
-      process.env.LOGOUT_URL ||
-      'https://master.d365ae9mfl52zg.amplifyapp.com/login',
+    baseUrl: process.env.BASE_URL || 'http://localhost:8080', //process.env.BASE_URL,
+    redirectUri: process.env.REDIRECT_URL || 'http://localhost:3000/login',
+    logoutRedirectUri: process.env.LOGOUT_URL || 'http://localhost:3000/login',
   },
   ssr: false,
   // Auth

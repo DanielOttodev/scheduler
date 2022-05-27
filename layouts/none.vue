@@ -21,29 +21,30 @@
                 ></v-img>
               </v-col>
               <v-col cols="5">
-                <v-text-field
+                <!--     <v-text-field
                   :rounded="true"
                   outlined
                   color="teal lighten-4"
                   placeholder="Search"
-                ></v-text-field>
+                ></v-text-field> -->
               </v-col>
-              <v-col cols="5"
-                ><v-text-field
+              <v-col cols="5">
+                <!--- <v-text-field
                   :rounded="true"
                   outlined
                   color="teal lighten-4"
                   placeholder="Location"
                   prepend-inner-icon="mdi-map-marker"
                 ></v-text-field
-              ></v-col>
+              >  --></v-col
+              >
             </v-row>
           </v-col>
 
           <v-col cols="4">
             <v-row justify="end">
-              <v-btn large class="mr-3" text>Login</v-btn>
-              <v-btn color="teal darken-3" large text outlined>Sign Up</v-btn>
+              <!--      <v-btn large class="mr-3" text>Login</v-btn>
+              <v-btn color="teal darken-3" large text outlined>Sign Up</v-btn>  -->
             </v-row>
           </v-col>
         </v-row>

@@ -6,7 +6,10 @@
           <v-card-title>Services</v-card-title>
           <v-card-subtitle>Manage Business Services</v-card-subtitle>
           <v-card-actions
-            ><v-btn color="primary" :to="'/services'" text small
+            ><v-btn color="primary" :to="'/allservices'" text small
+              >View Services</v-btn
+            >
+            <v-btn color="primary" :to="'/addservices'" text small
               >Add Service</v-btn
             ></v-card-actions
           >

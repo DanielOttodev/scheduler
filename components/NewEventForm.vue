@@ -10,56 +10,140 @@
       <v-stepper-content step="1">
         <v-card class="pa-3" outlined>
           <v-row>
+            <v-col>
+              <v-menu
+                ref="menu"
+                :close-on-content-click="false"
+                :return-value.sync="date"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="date" no-title scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="menu = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn text color="primary" @click="$refs.menu.save(date)">
+                    OK
+                  </v-btn>
+                </v-date-picker>
+              </v-menu>
+            </v-col>
+          </v-row>
+          <v-row>
             <v-col cols="4">
-              <v-select outlined label="Time"></v-select>
+              <v-select
+                v-model="selectTime"
+                :items="gettime"
+                outlined
+                label="Time"
+              ></v-select>
             </v-col>
             <v-col cols="8">
-              <v-select outlined label="Service"></v-select
+              <v-select
+                v-model="selectService"
+                return-object
+                :items="services"
+                item-text="sdesc"
+                outlined
+                label="Service"
+              ></v-select
             ></v-col>
           </v-row>
           <v-row>
             <v-col cols="4">
-              <v-select outlined label="Duration"></v-select>
+              <v-select
+                v-model="duration"
+                :items="minutes"
+                outlined
+                menu-props="auto"
+                label="Duration(mins)"
+              ></v-select>
             </v-col>
             <v-col cols="8">
-              <v-select outlined label="Staff Member"></v-select
+              <v-select
+                v-model="selectStaff"
+                :items="staff"
+                item-text="name"
+                outlined
+                label="Staff Member"
+                return-object
+              ></v-select
             ></v-col>
           </v-row>
         </v-card>
         <v-btn class="mt-3" color="primary" @click="e6 = 2"> Continue </v-btn>
       </v-stepper-content>
 
-      <v-stepper-step :complete="e6 > 2" step="2">
+      <v-stepper-step :complete="e6 > 2" @click="e6 = 2" step="2">
         Select client
       </v-stepper-step>
 
       <v-stepper-content step="2">
-        <v-select outlined label="Client"></v-select>
-
-        <v-btn color="primary" @click="e6 = 3"> Continue </v-btn>
+        <v-select
+          v-model="selectClient"
+          :items="clients"
+          return-object
+          item-text="Name"
+          outlined
+          label="Client"
+        ></v-select>
         <v-btn @click="e6 = e6 - 1" text> Back </v-btn>
+        <v-btn color="primary" @click="e6 = 3"> Continue </v-btn>
       </v-stepper-content>
 
-      <v-stepper-step :complete="e6 > 3" step="3">
-        Additional Details
-        <small>Optional</small>
-      </v-stepper-step>
-
+      <v-stepper-step step="3" @click="e6 = 3"> Confirm </v-stepper-step>
       <v-stepper-content step="3">
-        <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
-        <v-btn color="primary" @click="e6 = 4"> Continue </v-btn>
-        <v-btn text @click="e6 = e6 - 1"> Cancel </v-btn>
-      </v-stepper-content>
+        <v-card color="grey lighten-4" class="mb-12" height="200px">
+          <v-container>
+            <v-row>
+              <v-col>
+                <v-card-title v-if="selectService != null">
+                  {{ selectService.sdesc }}
+                </v-card-title>
+                <v-card-subtitle v-if="selectStaff != null" class="float-left"
+                  >with {{ selectStaff.name }}</v-card-subtitle
+                >
+              </v-col>
+              <v-col>
+                <v-card-title>{{ selectTime }}</v-card-title>
+                <v-card-subtitle v-if="duration != null" class="float-left"
+                  >{{ duration }} minutes
+                </v-card-subtitle>
+              </v-col>
+            </v-row>
+            <v-divider></v-divider>
+            <v-row>
+              <v-col>
+                <v-card-subtitle v-if="selectClient != null" class="float-left"
+                  >Client: {{ selectClient.Name }}</v-card-subtitle
+                >
+              </v-col>
+            </v-row>
 
-      <v-stepper-step step="4"> View setup instructions </v-stepper-step>
-      <v-stepper-content step="4">
-        <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
+            <h2 class="mb-5" v-if="serviceCost != null">
+              Total: ${{ serviceCost }}
+            </h2>
+          </v-container>
+        </v-card>
 
-        <v-btn @click="clear"> Cancel </v-btn>
+        <v-btn @click="e6 = e6 - 1" text> Back </v-btn>
         <v-btn
-          class="mr-4"
+          class="ml-4"
           color="blue-grey darken-4 white--text"
           @click="submit"
+          :disabled="isDisabled"
         >
           Save Booking
         </v-btn>
@@ -94,9 +178,65 @@ export default {
     select: null,
     checkbox: false,
     e6: 1,
+    services: [],
+    clients: [],
+    selectStaff: null,
+    selectClient: null,
+    selectTime: null,
+    duration: null,
+    selectService: null,
+    // serviceCost: 0,
+    date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      .toISOString()
+      .substr(0, 10),
   }),
 
   computed: {
+    serviceCost() {
+      if (this.selectService != null) {
+        let total = (this.selectService.totalCost / 60) * this.duration
+        return total.toFixed(2)
+      } else return 0
+    },
+
+    gettime() {
+      var x = 5 //minutes interval
+      var times = [] // time array
+      var tt = 0 // start time
+      var ap = ['AM', 'PM'] // AM-PM
+
+      //loop to increment the time and push results in array
+      for (var i = 0; tt < 24 * 60; i++) {
+        var hh = Math.floor(tt / 60) // getting hours of day in 0-24 format
+        var mm = tt % 60 // getting minutes of the hour in 0-55 format
+        times[i] = ('0' + (hh % 24)).slice(-2) + ':' + ('0' + mm).slice(-2) // pushing data in array in [00:00 - 12:00 AM/PM format]
+        tt = tt + x
+      }
+
+      return times
+    },
+
+    isDisabled() {
+      if (
+        this.selectService === null ||
+        this.selectClient === null ||
+        this.selectService === null ||
+        this.selectStaff === null ||
+        this.selectTime === null ||
+        this.duration === null
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
+    minutes() {
+      let mins = []
+      for (let x = 0; x < 500; x += 5) {
+        mins.push(x)
+      }
+      return mins
+    },
     checkboxErrors() {
       const errors = []
       if (!this.$v.checkbox.$dirty) return errors
@@ -127,8 +267,49 @@ export default {
   },
 
   methods: {
+    /*getService() {
+      fetch(
+        `${process.env.baseUrl}/services/getService/serviceid=${this.selectService.serviceId}`,
+        { headers: { Authorization: this.$auth.strategy.token.get() } }
+      )
+        .then((res) => res.json())
+        .then((x) => console.log(x))
+    },*/
+    loadClients() {
+      fetch(`${process.env.baseUrl}/client/getClientList`, {
+        headers: {
+          Authorization: this.$auth.strategy.token.get(),
+        },
+      })
+        .then((response) => response.json())
+        .then((x) => {
+          if (x.msg) {
+            alert('Invalid Token')
+            this.$auth.logout()
+          } else {
+            this.clients = x.result
+          }
+        })
+    },
     submit() {
-      this.$v.$touch()
+      fetch(`${process.env.baseUrl}/booking/addBooking`, {
+        method: 'POST',
+        headers: {
+          Authorization: this.$auth.strategy.token.get(),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          serviceid: this.selectService.serviceId,
+          clientid: this.selectClient.idClient,
+          staffid: this.selectStaff.idStaff,
+          Date: this.date,
+          timestart: this.selectTime + ':00',
+          minutesBilled: this.duration,
+          totalCost: this.serviceCost,
+        }),
+      })
+        .then((res) => res.json())
+        .then((x) => console.log(x))
     },
     clear() {
       this.$v.$reset()
@@ -137,6 +318,17 @@ export default {
       this.select = null
       this.checkbox = false
     },
+  },
+
+  mounted() {
+    fetch(`${process.env.baseUrl}/services/getServices`, {
+      headers: { Authorization: this.$auth.strategy.token.get() },
+    })
+      .then((res) => res.json())
+      .then((x) => {
+        this.services = x.result
+      })
+    this.loadClients()
   },
 }
 </script>
