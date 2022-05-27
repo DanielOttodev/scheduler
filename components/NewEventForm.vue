@@ -117,7 +117,7 @@
                 >
               </v-col>
               <v-col>
-                <v-card-title>{{ selectTime }}</v-card-title>
+                <v-card-title>When: {{ selectTime }}</v-card-title>
                 <v-card-subtitle v-if="duration != null" class="float-left"
                   >{{ duration }} minutes
                 </v-card-subtitle>

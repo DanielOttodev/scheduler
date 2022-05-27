@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row justify="center">
+    <!--<v-row justify="center">
       <v-card>
         <v-img
           alt="profilepicture"
@@ -11,7 +11,7 @@
           src="https://avatars.githubusercontent.com/u/44077055?v=4"
         ></v-img>
       </v-card>
-    </v-row>
+    </v-row>-->
 
     <v-row>
       <v-col>
