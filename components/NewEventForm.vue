@@ -156,6 +156,7 @@
 <script>
 import { validationMixin } from 'vuelidate'
 import { required, maxLength, email } from 'vuelidate/lib/validators'
+import loginVue from '../pages/login.vue'
 
 export default {
   mixins: [validationMixin],
@@ -292,6 +293,8 @@ export default {
         })
     },
     submit() {
+      console.log(this.selectStaff)
+      console.log(this.selectStaff.idStaff)
       fetch(`${process.env.baseUrl}/booking/addBooking`, {
         method: 'POST',
         headers: {
@@ -309,7 +312,7 @@ export default {
         }),
       })
         .then((res) => res.json())
-        .then((x) => console.log(x))
+        .then((x) => alert('Event Saved!'))
     },
     clear() {
       this.$v.$reset()

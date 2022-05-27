@@ -55,6 +55,8 @@
             :pickerDate="picker"
             :users="staffName"
             :filterUser="selected"
+            :events="bookings"
+            :allstaff="staff"
           />
         </v-col>
       </v-row>
@@ -112,23 +114,35 @@ export default {
 
           for (let y = 0; y < x.result.length; y++) {
             console.log(
-              'time:',
-              x.result[y].TimeStart + x.result[y].Duration * 6000
+              `${x.result[y].Date.split('T')[0]}T${x.result[y].TimeStart}`
             )
-            console.log(
-              'date;',
-              new Date(new Date(x.result[y].Date).toDateString())
+            let startDate = new Date(
+              `${x.result[y].Date.split('T')[0]}T${x.result[y].TimeStart}`
             )
-            console.log(`${x.result[y].Date} ${x.result[y].TimeStart}`)
+
+            let setDate = new Date(startDate)
+            console.log('set', setDate)
+            console.log('startd', startDate)
+            setDate.setMinutes(startDate.getMinutes() + x.result[y].Duration)
+            console.log('set2', setDate)
+
+            let endDate = new Date(setDate).toLocaleTimeString().substring(0, 4)
+            if (endDate.split(':')[0].length === 1) {
+              endDate = '0' + endDate
+            }
+            console.log(`${x.result[y].Date.split('T')[0]} ${endDate}`)
+
             this.bookings.push({
               name: x.result[y].Description,
-              start: `${x.result[y].Date} ${x.result[y].TimeStart}`,
-              end: '2022-05-27 11:00:00',
+              start: `${x.result[y].Date.split('T')[0]} ${
+                x.result[y].TimeStart
+              }`,
+              end: `${x.result[y].Date.split('T')[0]} ${endDate}`,
               width: 200,
               color: 'blue',
               timed: true,
               category: x.result[y].name,
-              details: `Customer needs a haircut`,
+              details: x.result[y].sdesc,
             })
           }
           console.log(this.bookings)

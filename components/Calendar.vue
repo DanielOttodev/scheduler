@@ -43,7 +43,6 @@
           :categories="filterUser"
           :events="events"
           :event-color="getEventColor"
-          @change="fetchEvents"
           @click:event="showEvent"
         ></v-calendar>
         <v-card v-else
@@ -129,7 +128,7 @@
         <v-divider class="mt-5"></v-divider>
         <v-row class="mt-5">
           <v-col>
-            <NewEventForm :staff="users" />
+            <NewEventForm :staff="allstaff" />
           </v-col>
         </v-row>
       </v-container>
@@ -140,12 +139,12 @@
 import NewEventForm from './NewEventForm.vue'
 
 export default {
-  props: ['users', 'filterUser', 'pickerDate'],
+  props: ['users', 'filterUser', 'pickerDate', 'events', 'allstaff'],
   components: { NewEventForm },
   data: () => ({
     right: null,
     focus: '',
-    events: [],
+    //events: [],
     colors: [
       'blue',
       'indigo',
@@ -155,16 +154,7 @@ export default {
       'orange',
       'grey darken-1',
     ],
-    names: [
-      'Meeting',
-      'Holiday',
-      'PTO',
-      'Travel',
-      'Event',
-      'Birthday',
-      'Conference',
-      'Party',
-    ],
+
     //  categories: [],
     selectedEvent: {},
     selectedElement: null,
@@ -214,40 +204,6 @@ export default {
     },
     next() {
       this.$refs.calendar.next()
-    },
-    fetchEvents({ start, end }) {
-      const events = []
-      console.log(start.date, end.date)
-      const min = new Date(`2022-05-26T00:00:01`)
-      const max = new Date(`${end.date}T23:59:59`)
-      const days = (max.getTime() - min.getTime()) / 86400000
-      const eventCount = this.rnd(days, days + 20)
-
-      for (let i = 0; i < eventCount; i++) {
-        const allDay = this.rnd(0, 3) === 0
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-        const second = new Date(first.getTime() + secondTimestamp)
-
-        events.push({
-          name: this.names[this.rnd(0, this.names.length - 1)],
-          start: '2022-05-27 10:00:00',
-          end: '2022-05-27 11:00:00',
-          width: 200,
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-          timed: true,
-          category: this.users[this.rnd(0, this.users.length - 1)],
-          details: `Customer needs a haircut`,
-        })
-      }
-
-      this.events = events
-      console.log(this.events)
-    },
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a
     },
   },
 }

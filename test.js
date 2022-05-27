@@ -1,1 +1,6 @@
-console.log(new Date().toLocaleDateString().replace('/', '-').replace('/', '-'))
+let x = new Date('2022-05-27T22:00:00')
+let y = new Date(x)
+console.log(x)
+y.setMinutes(x.getMinutes() + 30)
+let h = new Date(y).toLocaleTimeString()
+console.log(h.substring(0, 8))
